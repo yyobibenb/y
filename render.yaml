@@ -1,0 +1,22 @@
+databases:
+  - name: thaibc-db
+    databaseName: thaibc
+    user: thaibc_user
+
+services:
+  - type: web
+    name: thaibc-app
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/fixtures
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: thaibc-db
+          property: connectionString
+    domains:
+      - thaibc.onrender.com
