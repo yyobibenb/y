@@ -538,6 +538,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Wallet settings endpoints
+  
+  // Public endpoint for users to get wallet addresses for deposits
+  app.get("/api/wallets", async (req, res) => {
+    try {
+      const usdtTrc20 = await storage.getAdminSetting('wallet_usdt_trc20');
+      const usdtBep20 = await storage.getAdminSetting('wallet_usdt_bep20');
+      const sol = await storage.getAdminSetting('wallet_sol');
+
+      res.json({
+        usdtTrc20: usdtTrc20?.value || '',
+        usdtBep20: usdtBep20?.value || '',
+        sol: sol?.value || ''
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch wallet settings" });
+    }
+  });
+  
+  // Admin endpoint for managing wallet settings
   app.get("/api/admin/wallets", requireAdmin, async (req, res) => {
     try {
       const usdtTrc20 = await storage.getAdminSetting('wallet_usdt_trc20');
