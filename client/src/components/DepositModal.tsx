@@ -25,7 +25,7 @@ export default function DepositModal({ open, onOpenChange }: DepositModalProps) 
   const [cardHolder, setCardHolder] = useState<string>("");
 
   const { data: walletSettings } = useQuery({
-    queryKey: ["/api/admin/wallets"],
+    queryKey: ["/api/wallets"],
     enabled: open,
   });
 
@@ -68,11 +68,11 @@ export default function DepositModal({ open, onOpenChange }: DepositModalProps) 
     
     switch (selectedCrypto) {
       case "usdt-trc20":
-        return walletSettings.usdtTrc20 || "TQrfqvkFc5qd8uGWXqYbXm7QqTiPdZ8cR9";
+        return (walletSettings as any).usdtTrc20 || "TQrfqvkFc5qd8uGWXqYbXm7QqTiPdZ8cR9";
       case "usdt-bep20":
-        return walletSettings.usdtBep20 || "0x742d35Cc6334C0532925a3b8bc1b6847e9dC6b8A";
+        return (walletSettings as any).usdtBep20 || "0x742d35Cc6334C0532925a3b8bc1b6847e9dC6b8A";
       case "sol":
-        return walletSettings.sol || "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM";
+        return (walletSettings as any).sol || "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM";
       default:
         return "";
     }
